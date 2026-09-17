@@ -103,7 +103,15 @@ def draw():
     """Xoá màn hình rồi in lại toàn bộ bảng. Dịch từ draw."""
     os.system("cls")
     for i in range(H):
-        print("".join(board[i]))
+        row = []
+        for cell in board[i]:
+            if cell == "#":
+                row.append("##")
+            elif cell == " ":
+                row.append("  ")
+            else:
+                row.append("[]")
+        print("".join(row))
 
 
 def remove_line():
