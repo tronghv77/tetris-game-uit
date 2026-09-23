@@ -9,13 +9,13 @@ chuyển sang lập trình hướng đối tượng cho giai đoạn sau.
 
 Bảng đối chiếu tên hàm:
 
-    C++              Python
-    canMove          can_move
-    block2Board      block_to_board
-    boardDelBlock    board_del_block
-    initBoard        init_board
-    draw             draw
-    removeLine       (chưa có — phần việc của SV2)
+    C++             Python
+    canMove         can_move
+    block2Board     block_to_board
+    boardDelBlock   board_del_block
+    initBoard       init_board
+    draw            draw
+    removeLine      remove_line
 
 Cách chơi:  a sang trái, d sang phải, x rơi nhanh, q thoát.
 Chạy:       python tetris.py
@@ -36,6 +36,9 @@ board = [[" "] * W for _ in range(H)]
 x = 0
 y = 0
 b = 0
+
+# Tốc độ rơi mặc định (giây)
+fall_speed = 0.5
 
 # Bảng các khối, chép đúng từ mảng blocks[][4][4] trong main.cpp.
 # Mỗi khối là 4 dòng, mỗi dòng 4 ký tự.
@@ -107,9 +110,12 @@ def draw():
 
 
 def remove_line():
+    """Xóa các hàng đầy và trả về số hàng đã xóa."""
+    lines_cleared = 0
     i = H - 2
     while i > 0:
         if " " not in board[i]:
+            lines_cleared += 1
             for ii in range(i, 1, -1):
                 board[ii] = board[ii - 1][:]
 
@@ -119,23 +125,18 @@ def remove_line():
             time.sleep(0.2)
         else:
             i -= 1
-
-# TODO(SV4): viết phần xoay khối. Bản C++ chưa có, các phím hiện chỉ có
-# a, d, x, q. Gợi ý: thêm một phím xoay, đổi giá trị b sang trạng thái xoay
-# tương ứng, và nhớ kiểm tra can_move trước khi nhận nước xoay.
-
-# TODO(SV5): mỗi lần xoá được hàng thì cho khối rơi nhanh hơn. Hiện tốc độ
-# đang cố định 0.5 giây một hàng ở cuối hàm main().
+    return lines_cleared
 
 
 def main():
     """Vòng lặp game. Dịch từ hàm main trong C++."""
-    global x, y, b
+    global x, y, b, fall_speed
 
     random.seed()
     x = 5
     y = 0
     b = random.randint(0, 6)
+    fall_speed = 0.5
     init_board()
 
     while True:
@@ -156,14 +157,18 @@ def main():
             y += 1
         else:
             block_to_board()
-            remove_line()
+            lines = remove_line()
+            # Issue #9: Tăng tốc độ rơi khi xóa hàng
+            if lines > 0:
+                fall_speed = max(0.1, fall_speed - 0.05 * lines)
+
             x = 5
             y = 0
             b = random.randint(0, 6)
 
         block_to_board()
         draw()
-        time.sleep(0.5)
+        time.sleep(fall_speed)
 
 
 if __name__ == "__main__":
