@@ -338,6 +338,19 @@ def rotate_block():
 
 
 # ============================================================
+# KIỂM TRA THUA
+# ============================================================
+
+def is_game_over():
+    """Khối vừa sinh ra đã không còn chỗ đứng nghĩa là bảng đầy tới đỉnh.
+
+    Bản C++ của thầy không có phần này: khi bảng đầy, khối mới cứ bị khoá
+    ngay tại đỉnh rồi lại sinh khối mới, vòng lặp chạy mãi không dừng.
+    """
+    return not can_move(0, 0)
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
