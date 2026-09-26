@@ -377,11 +377,6 @@ def main():
 
     random.seed()
 
-    init_board()
-
-    x = 5
-    y = 0
-
     # Chỉ chọn trạng thái ban đầu của từng loại khối
     # I, O, T, S, Z, J, L
     first_states = [
@@ -394,67 +389,98 @@ def main():
         15      # L
     ]
 
-    b = random.choice(first_states)
-
+    # Vòng ngoài: mỗi lượt là một ván chơi
     while True:
 
-        # Xoá khối hiện tại khỏi bảng
-        board_del_block()
+        init_board()
 
-        # Kiểm tra phím
-        if msvcrt.kbhit():
+        # Số khối đã xếp được trong ván này
+        pieces = 0
 
-            c = msvcrt.getch().decode(
-                "utf-8",
-                errors="ignore"
-            )
+        x = 5
+        y = 0
+        b = random.choice(first_states)
 
-            # Sang trái
-            if c == "a" and can_move(-1, 0):
-                x -= 1
-            # Sang phải
-            if c == "d" and can_move(1, 0):
-                x += 1
+        # Vòng trong: một ván chơi
+        while True:
 
-            # Rơi nhanh
-            if c == "x" and can_move(0, 1):
+            # Xoá khối hiện tại khỏi bảng
+            board_del_block()
+
+            # Kiểm tra phím
+            if msvcrt.kbhit():
+
+                c = msvcrt.getch().decode(
+                    "utf-8",
+                    errors="ignore"
+                )
+
+                # Sang trái
+                if c == "a" and can_move(-1, 0):
+                    x -= 1
+                # Sang phải
+                if c == "d" and can_move(1, 0):
+                    x += 1
+
+                # Rơi nhanh
+                if c == "x" and can_move(0, 1):
+                    y += 1
+
+                # Xoay
+                if c == "w":
+                    rotate_block()
+
+                # Thoát hẳn, không chơi lại
+                if c == "q":
+                    return
+
+            # Khối tự động rơi
+            if can_move(0, 1):
+
                 y += 1
 
-            # Xoay
-            if c == "w":
-                rotate_block()
+            else:
 
-            # Thoát
-            if c == "q":
-                break
+                # Không rơi được nữa -> cố định khối
+                block_to_board()
 
-        # Khối tự động rơi
-        if can_move(0, 1):
+                # Xoá hàng
+                remove_line()
 
-            y += 1
+                pieces += 1
 
-        else:
+                # Tạo khối mới
+                x = 5
+                y = 0
+                b = random.choice(first_states)
 
-            # Không rơi được nữa -> cố định khối
+                # Khối mới không có chỗ đứng nghĩa là thua
+                if is_game_over():
+
+                    draw_game_over(pieces)
+
+                    # Chờ người chơi chọn chơi lại hay thoát
+                    while True:
+                        phim = msvcrt.getch().decode(
+                            "utf-8",
+                            errors="ignore"
+                        )
+                        if phim == "r":
+                            break
+                        if phim == "q":
+                            return
+
+                    # Thoát vòng trong để bắt đầu ván mới
+                    break
+
+            # Đưa khối hiện tại vào bảng
             block_to_board()
 
-            # Xoá hàng
-            remove_line()
+            # Vẽ
+            draw()
 
-            # Tạo khối mới
-            x = 5
-            y = 0
-
-            b = random.choice(first_states)
-
-        # Đưa khối hiện tại vào bảng
-        block_to_board()
-
-        # Vẽ
-        draw()
-
-        # Tốc độ rơi
-        time.sleep(0.5)
+            # Tốc độ rơi
+            time.sleep(0.5)
 
 
 if __name__ == "__main__":
