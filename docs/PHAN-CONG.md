@@ -13,7 +13,7 @@ thường và cũng nằm trong yêu cầu của môn học. Cách xử lý xem
 
 - [x] Đưa `main.cpp` của giảng viên lên Git, giữ nguyên không sửa
 - [x] Port sang Python thành `tetris.py`, dịch sát từng hàm
-- [ ] Duyệt Pull Request của các bạn, hướng dẫn xử lý conflict
+- [x] Duyệt Pull Request của các bạn, hướng dẫn xử lý conflict
 - [ ] Soạn hợp đồng nhóm và mục link công cụ trong báo cáo
 
 ---
@@ -24,8 +24,8 @@ thường và cũng nằm trong yêu cầu của môn học. Cách xử lý xem
 
 Bản port hiện chưa có hàm này, nên hàng đầy vẫn nằm nguyên tại chỗ.
 
-- [ ] Viết `remove_line()`: tìm hàng đã đầy, xoá đi, đẩy các hàng phía trên rơi xuống
-- [ ] Gọi hàm đó trong `main()`, ngay sau `block_to_board()`
+- [x] Viết `remove_line()`: tìm hàng đã đầy, xoá đi, đẩy các hàng phía trên rơi xuống
+- [x] Gọi hàm đó trong `main()`, ngay sau `block_to_board()`
 
 **Xong khi:** xếp đầy một hàng thì hàng đó biến mất và phần phía trên tụt xuống.
 
@@ -42,8 +42,8 @@ tra hàng đầy phải xét đúng vùng bên trong.
 Ký tự trong cửa sổ dòng lệnh cao hơn là rộng, nên bảng chơi hiện bị dẹt thành
 hình chữ nhật thay vì vuông.
 
-- [ ] Sửa hàm `draw()` để mỗi ô chiếm hai ký tự bề ngang
-- [ ] Chọn ký tự vẽ viền và vẽ block cho dễ nhìn
+- [x] Sửa hàm `draw()` để mỗi ô chiếm hai ký tự bề ngang
+- [x] Chọn ký tự vẽ viền và vẽ block cho dễ nhìn
 
 **Xong khi:** nhìn vào bảng chơi thấy các ô vuông vức, không bị kéo dẹt.
 
@@ -55,9 +55,9 @@ hình chữ nhật thay vì vuông.
 
 Bản của giảng viên chưa có xoay, hiện chỉ có các phím `a`, `d`, `x`, `q`.
 
-- [ ] Thêm một phím xoay
-- [ ] Viết phần xoay: đổi `b` sang trạng thái xoay tương ứng
-- [ ] Kiểm tra `can_move()` trước khi nhận nước xoay, tránh khối xoay xuyên tường
+- [x] Thêm một phím xoay
+- [x] Viết phần xoay: đổi `b` sang trạng thái xoay tương ứng
+- [x] Kiểm tra `can_move()` trước khi nhận nước xoay, tránh khối xoay xuyên tường
 
 **Xong khi:** bấm phím xoay thì khối xoay đúng, sát tường không bị lỗi.
 
@@ -82,6 +82,21 @@ rồi bắt đầu, hoặc trao đổi trước để thống nhất hàm trả 
 
 **Việc 2:** chủ biên phần giới thiệu và hướng dẫn chơi Tetris trong báo cáo, làm
 trên Google Docs của nhóm.
+
+---
+
+## Lỗi tìm được trong mã nguồn gốc của giảng viên
+
+Ba lỗi nhóm phát hiện khi đọc và port `main.cpp`. Nên đưa vào báo cáo.
+
+1. **`rand()%7` chỉ sinh ra hai loại khối.** Bảy phần tử đầu của mảng `blocks`
+   chỉ gồm khối I và O, nên T, S, Z, J, L ở vị trí 11–15 không bao giờ xuất
+   hiện. Nguyên xử lý bằng danh sách `first_states`.
+2. **`removeLine()` biến hàng trên cùng thành tường.** Vòng lặp chép hàng viền
+   `#` ở trên xuống hàng 1, nên mỗi lần xoá hàng lại mọc thêm một bức tường.
+   Tuấn xử lý bằng cách dừng ở hàng 2 rồi đặt lại hàng 1 thành hàng trống.
+3. **Ô hiển thị bị kéo dẹt.** Ký tự trong cửa sổ dòng lệnh cao hơn là rộng nên
+   bảng chơi thành hình chữ nhật. Tín xử lý bằng cách in mỗi ô thành hai ký tự.
 
 ---
 
