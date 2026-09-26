@@ -338,6 +338,23 @@ def rotate_block():
 
 
 # ============================================================
+# MÀN HÌNH KẾT THÚC
+# ============================================================
+
+def draw_game_over(pieces):
+    """Vẽ màn hình báo thua kèm số khối đã xếp được."""
+    draw()
+    print()
+    print("  ===============================")
+    print("            GAME OVER            ")
+    print("  ===============================")
+    print(f"     So khoi da xep duoc: {pieces}")
+    print()
+    print("     Nhan r de choi lai")
+    print("     Nhan q de thoat")
+
+
+# ============================================================
 # KIỂM TRA THUA
 # ============================================================
 
