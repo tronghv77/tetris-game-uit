@@ -38,7 +38,7 @@ Bản port cố ý giữ nguyên lối viết của bản C++: dùng biến toà
 | `boardDelBlock` | `board_del_block` |
 | `initBoard` | `init_board` |
 | `draw` | `draw` |
-| `removeLine` | *chưa có — phần việc của SV2* |
+| `removeLine` | `remove_line` |
 
 ---
 
@@ -60,10 +60,11 @@ Không cần cài thư viện ngoài.
 |------|----------|
 | `a` | Sang trái |
 | `d` | Sang phải |
+| `w` | Xoay khối |
 | `x` | Rơi nhanh một hàng |
 | `q` | Thoát |
 
-Chưa có phím xoay khối — đó là phần việc của SV4.
+Bản gốc của giảng viên chưa có phím xoay. Phím `w` do nhóm bổ sung.
 
 ---
 
