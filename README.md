@@ -73,9 +73,26 @@ Bản gốc của giảng viên chưa có phím xoay. Phím `w` do nhóm bổ su
 | Chỉ tiêu | Ghi chú |
 |---|---|
 | 100% thành viên đóng góp mã nguồn trên Git | Mỗi người có phần việc riêng trong bảng trên |
-| Trên 50 commit | Commit nhỏ và thường xuyên, mỗi lần một việc |
+| Trên 50 commit | Commit nhỏ và thường xuyên, mỗi lần một việc. **Đừng gom cả phần việc vào một commit** |
 | Trên 3 conflict | Cả nhóm cùng sửa `tetris.py` nên conflict sẽ phát sinh tự nhiên. Cách xử lý ghi ở [docs/HUONG-DAN-GIT.md](docs/HUONG-DAN-GIT.md) |
-| Trên 6 nhánh | Mỗi phần việc một nhánh riêng, không dùng lại nhánh cũ |
+| Trên 6 nhánh | Mỗi phần việc một nhánh riêng, không dùng lại nhánh cũ. **Không xoá nhánh sau khi merge** |
+
+### Cách tự kiểm tra bốn chỉ tiêu
+
+```bash
+git log --oneline | wc -l                      # số commit
+git branch -r | wc -l                          # số nhánh trên GitHub
+git shortlog -sne --no-merges                  # ai đã đóng góp bao nhiêu commit
+git log --grep=conflict --oneline               # các lần xử lý conflict
+```
+
+Chạy `git shortlog -sne --no-merges` để chắc chắn commit của mình được tính
+đúng tên. Nếu tên hoặc email hiện ra không khớp tài khoản GitHub thì commit đó
+không được ghi nhận cho ai, sửa bằng:
+
+```bash
+git config --global user.email "mssv@ms.uit.edu.vn"
+```
 
 ---
 
