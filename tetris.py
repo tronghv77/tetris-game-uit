@@ -16,6 +16,11 @@ x = 0
 y = 0
 b = 0
 
+# Biến điểm và số hàng đã xoá
+lines_removed = 0
+score = 0
+SCORE_MULTIPLIER = 100
+
 # ============================================================
 # CÁC KHỐI VÀ TRẠNG THÁI XOAY
 # ============================================================
@@ -243,6 +248,9 @@ def init_board():
 def draw():
     os.system("cls")
 
+    # Hiên thị điểm và số hàng đã xoá
+    print(f" SCORE: {score}  |  REMOVED LINES: {lines_removed}")
+
     for i in range(H):
         row = []
         for cell in board[i]:
@@ -260,7 +268,7 @@ def draw():
 # ============================================================
 
 def remove_line():
-
+    global lines_removed, score
     i = H - 2
 
     while i > 0:
@@ -271,6 +279,9 @@ def remove_line():
                 board[ii] = board[ii - 1][:]
 
             board[1] = ["#"] + [" "] * (W - 2) + ["#"]
+
+            lines_removed += 1
+            score = lines_removed * SCORE_MULTIPLIER
 
             draw()
             time.sleep(0.2)
