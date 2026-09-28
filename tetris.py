@@ -242,7 +242,7 @@ def init_board():
 def draw():
     os.system("cls")
 
-    # Hiên thị điểm và số hàng đã xoá
+    # Hiển thị điểm và số hàng đã xoá
     print(f" ĐIỂM: {score}  |  DÒNG: {total_lines_removed}")
 
     for i in range(H):
