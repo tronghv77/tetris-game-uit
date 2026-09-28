@@ -413,6 +413,12 @@ def main():
         15      # L
     ]
 
+    # Màn hình chào, bấm q ở đây là thoát luôn
+    draw_start_screen()
+
+    if wait_any_key() == "q":
+        return
+
     # Vòng ngoài: mỗi lượt là một ván chơi
     while True:
 
