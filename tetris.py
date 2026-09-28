@@ -321,6 +321,44 @@ def rotate_block():
 
 
 # ============================================================
+# MÀN HÌNH BẮT ĐẦU
+# ============================================================
+
+def wait_any_key():
+    """Chờ người chơi bấm một phím, trả về phím đó.
+
+    Bỏ hết phím còn sót trong bộ đệm trước đã, không thì mấy phím bấm
+    lúc đang chơi sẽ làm màn hình trôi qua ngay lập tức.
+    """
+    while msvcrt.kbhit():
+        msvcrt.getch()
+
+    return msvcrt.getch().decode("utf-8", errors="ignore")
+
+
+def draw_start_screen():
+    """Màn hình chào, hiện bảng phím trước khi vào ván đầu tiên."""
+    os.system("cls")
+    print()
+    print("    ==================================")
+    print("              T E T R I S             ")
+    print("    ==================================")
+    print()
+    print("      Do an Ky nang nghe nghiep - UIT")
+    print("      Nhom 07")
+    print()
+    print("    ----------------------------------")
+    print("      a / d    sang trai / sang phai")
+    print("      w        xoay khoi")
+    print("      x        roi nhanh mot hang")
+    print("      p        tam dung / choi tiep")
+    print("      q        thoat")
+    print("    ----------------------------------")
+    print()
+    print("      Nhan phim bat ky de bat dau...")
+
+
+# ============================================================
 # MÀN HÌNH KẾT THÚC
 # ============================================================
 
