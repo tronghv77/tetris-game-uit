@@ -1,4 +1,25 @@
-"""Tetris - SV4: Xoay khối."""
+"""Tetris — bản port sang Python từ main.cpp của giảng viên.
+
+Người phụ trách bản port: Hồ Văn Trọng (26730077)
+
+Bản này dịch sát từng hàm trong `main.cpp`: vẫn dùng biến toàn cục, vẫn vẽ
+bằng ký tự trong cửa sổ dòng lệnh, vẫn đọc phím bằng thư viện chuẩn của
+Windows. Giữ nguyên như vậy để dễ đối chiếu với bản C++, và để dành phần
+chuyển sang lập trình hướng đối tượng cho giai đoạn sau.
+
+Bảng đối chiếu tên hàm:
+
+    C++             Python
+    canMove         can_move
+    block2Board     block_to_board
+    boardDelBlock   board_del_block
+    initBoard       init_board
+    draw            draw
+    removeLine      remove_line
+
+Cách chơi:  a sang trái, d sang phải, w xoay khối, x rơi nhanh, q thoát.
+Chạy:       python tetris.py
+"""
 
 import msvcrt
 import os
@@ -16,12 +37,13 @@ x = 0
 y = 0
 b = 0
 
+# Tốc độ rơi mặc định (giây)
+fall_speed = 0.5
+
 # ============================================================
 # CÁC KHỐI VÀ TRẠNG THÁI XOAY
 # ============================================================
-
 blocks = [
-
     # 0 - 1: I
     [
         " I  ",
@@ -29,14 +51,12 @@ blocks = [
         " I  ",
         " I  "
     ],
-
     [
         "    ",
         "IIII",
         "    ",
         "    "
     ],
-
 
     # 2: O
     [
@@ -46,7 +66,6 @@ blocks = [
         "    "
     ],
 
-
     # 3 - 6: T
     [
         " T  ",
@@ -54,28 +73,24 @@ blocks = [
         "    ",
         "    "
     ],
-
     [
         " T  ",
         " TT ",
         " T  ",
         "    "
     ],
-
     [
         "    ",
         "TTT ",
         " T  ",
         "    "
     ],
-
     [
         " T  ",
         "TT  ",
         " T  ",
         "    "
     ],
-
 
     # 7 - 8: S
     [
@@ -84,14 +99,12 @@ blocks = [
         "SS  ",
         "    "
     ],
-
     [
         " S  ",
         " SS ",
         "  S ",
         "    "
     ],
-
 
     # 9 - 10: Z
     [
@@ -100,14 +113,12 @@ blocks = [
         " ZZ ",
         "    "
     ],
-
     [
         " Z  ",
         "ZZ  ",
         "Z   ",
         "    "
     ],
-
 
     # 11 - 14: J
     [
@@ -116,28 +127,24 @@ blocks = [
         "    ",
         "    "
     ],
-
     [
         "JJ  ",
         "J   ",
         "J   ",
         "    "
     ],
-
     [
         "JJJ ",
         "  J ",
         "    ",
         "    "
     ],
-
     [
         " J  ",
         " J  ",
         "JJ  ",
         "    "
     ],
-
 
     # 15 - 18: L
     [
@@ -146,21 +153,18 @@ blocks = [
         "    ",
         "    "
     ],
-
     [
         "L   ",
         "L   ",
         "LL  ",
         "    "
     ],
-
     [
         "LLL ",
         "L   ",
         "    ",
         "    "
     ],
-
     [
         "LL  ",
         " L  ",
@@ -173,13 +177,10 @@ blocks = [
 # ============================================================
 # KIỂM TRA KHỐI CÓ THỂ DI CHUYỂN KHÔNG
 # ============================================================
-
 def can_move(dx, dy):
     for i in range(4):
         for j in range(4):
-
             if blocks[b][i][j] != " ":
-
                 xt = x + j + dx
                 yt = y + i + dy
 
@@ -201,11 +202,9 @@ def can_move(dx, dy):
 # ============================================================
 # ĐƯA KHỐI VÀO BẢNG
 # ============================================================
-
 def block_to_board():
     for i in range(4):
         for j in range(4):
-
             if blocks[b][i][j] != " ":
                 board[y + i][x + j] = blocks[b][i][j]
 
@@ -213,11 +212,9 @@ def block_to_board():
 # ============================================================
 # XOÁ KHỐI KHỎI BẢNG
 # ============================================================
-
 def board_del_block():
     for i in range(4):
         for j in range(4):
-
             if blocks[b][i][j] != " ":
                 board[y + i][x + j] = " "
 
@@ -225,11 +222,9 @@ def board_del_block():
 # ============================================================
 # KHỞI TẠO BẢNG
 # ============================================================
-
 def init_board():
     for i in range(H):
         for j in range(W):
-
             if i == 0 or i == H - 1 or j == 0 or j == W - 1:
                 board[i][j] = "#"
             else:
@@ -239,7 +234,6 @@ def init_board():
 # ============================================================
 # VẼ BẢNG
 # ============================================================
-
 def draw():
     os.system("cls")
 
@@ -258,15 +252,14 @@ def draw():
 # ============================================================
 # XOÁ HÀNG ĐẦY
 # ============================================================
-
 def remove_line():
-
+    """Xóa các hàng đầy và trả về số hàng đã xóa."""
+    lines_cleared = 0
     i = H - 2
 
     while i > 0:
-
         if " " not in board[i]:
-
+            lines_cleared += 1
             for ii in range(i, 1, -1):
                 board[ii] = board[ii - 1][:]
 
@@ -274,49 +267,41 @@ def remove_line():
 
             draw()
             time.sleep(0.2)
-
         else:
             i -= 1
+
+    return lines_cleared
 
 
 # ============================================================
 # XOAY KHỐI
 # ============================================================
-
 def rotate_block():
-
     global b
 
     # Trạng thái xoay của từng loại khối
     rotation = {
-
         # I
         0: 1,
         1: 0,
-
         # O
         2: 2,
-
         # T
         3: 4,
         4: 5,
         5: 6,
         6: 3,
-
         # S
         7: 8,
         8: 7,
-
         # Z
         9: 10,
         10: 9,
-
         # J
         11: 12,
         12: 13,
         13: 14,
         14: 11,
-
         # L
         15: 16,
         16: 17,
@@ -331,53 +316,35 @@ def rotate_block():
 
     # Kiểm tra vị trí mới
     if not can_move(0, 0):
-
-        # Nếu xoay bị đụng tường / khối khác
-        # thì quay lại trạng thái cũ
+        # Nếu xoay bị đụng tường / khối khác thì quay lại trạng thái cũ
         b = old_b
 
 
 # ============================================================
 # MAIN
 # ============================================================
-
 def main():
-
-    global x, y, b
+    """Vòng lặp game. Dịch từ hàm main trong C++."""
+    global x, y, b, fall_speed
 
     random.seed()
-
     init_board()
 
     x = 5
     y = 0
+    fall_speed = 0.5
 
-    # Chỉ chọn trạng thái ban đầu của từng loại khối
-    # I, O, T, S, Z, J, L
-    first_states = [
-        0,      # I
-        2,      # O
-        3,      # T
-        7,      # S
-        9,      # Z
-        11,     # J
-        15      # L
-    ]
-
+    # Chỉ chọn trạng thái ban đầu của từng loại khối (I, O, T, S, Z, J, L)
+    first_states = [0, 2, 3, 7, 9, 11, 15]
     b = random.choice(first_states)
 
     while True:
-
         # Xoá khối hiện tại khỏi bảng
         board_del_block()
 
         # Kiểm tra phím
         if msvcrt.kbhit():
-
-            c = msvcrt.getch().decode(
-                "utf-8",
-                errors="ignore"
-            )
+            c = msvcrt.getch().decode("utf-8", errors="ignore")
 
             # Sang trái
             if c == "a" and can_move(-1, 0):
@@ -385,36 +352,31 @@ def main():
             # Sang phải
             if c == "d" and can_move(1, 0):
                 x += 1
-
             # Rơi nhanh
             if c == "x" and can_move(0, 1):
                 y += 1
-
             # Xoay
             if c == "w":
                 rotate_block()
-
             # Thoát
             if c == "q":
                 break
 
         # Khối tự động rơi
         if can_move(0, 1):
-
             y += 1
-
         else:
-
             # Không rơi được nữa -> cố định khối
             block_to_board()
 
-            # Xoá hàng
-            remove_line()
+            # Xoá hàng và tăng tốc độ rơi
+            lines = remove_line()
+            if lines > 0:
+                fall_speed = max(0.1, fall_speed - 0.05 * lines)
 
             # Tạo khối mới
             x = 5
             y = 0
-
             b = random.choice(first_states)
 
         # Đưa khối hiện tại vào bảng
@@ -422,9 +384,7 @@ def main():
 
         # Vẽ
         draw()
-
-        # Tốc độ rơi
-        time.sleep(0.5)
+        time.sleep(fall_speed)
 
 
 if __name__ == "__main__":
