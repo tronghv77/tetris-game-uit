@@ -403,6 +403,11 @@ def main():
     # Vòng ngoài: mỗi lượt là một ván chơi
     while True:
 
+        # Reset điểm và số hàng đã xoá
+        global total_lines_removed, score
+        total_lines_removed = 0
+        score = 0
+
         init_board()
 
         # Số khối đã xếp được trong ván này
