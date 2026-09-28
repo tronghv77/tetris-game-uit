@@ -281,6 +281,7 @@ def remove_line():
             i -= 1
 
     # Cập nhật điểm số dựa trên số hàng đã xóa
+    # Yêu cầu: Xoá 1 hàng được 100 điểm, 2 hàng 300, 3 hàng 500, 4 hàng cùng lúc 800 điểm
     score = total_lines_removed * SCORE_MULTIPLIER
 
     return lines_cleared
