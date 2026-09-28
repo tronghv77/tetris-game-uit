@@ -479,6 +479,18 @@ def main():
                 if c == "w":
                     rotate_block()
 
+                # Tạm dừng
+                if c == "p":
+
+                    draw_pause_screen()
+
+                    while True:
+                        phim = wait_any_key()
+                        if phim == "p":
+                            break
+                        if phim == "q":
+                            return
+
                 # Thoát hẳn, không chơi lại
                 if c == "q":
                     return
