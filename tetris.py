@@ -282,6 +282,8 @@ def remove_line():
 
     # Cập nhật điểm số dựa trên số hàng đã xóa
     # Yêu cầu: Xoá 1 hàng được 100 điểm, 2 hàng 300, 3 hàng 500, 4 hàng cùng lúc trở đi 800 điểm
+    # Chuyển đổi sang hệ số nhân để hỗ trợ thêm điểm khi dòng nhiều hơn 4
+    # Khi dòng nhiều hơn 4, hệ số sẽ là 200 điểm cho mỗi dòng thêm, ví dụ: 5 dòng = 1000 điểm, 6 dòng = 1200 điểm, ...
     # Chỉ update score nếu có ít nhất 1 hàng được xóa
     if lines_cleared > 0:
         if lines_cleared == 1:
@@ -291,7 +293,7 @@ def remove_line():
         elif lines_cleared == 3:
             score += SCORE_MULTIPLIER * 5
         elif lines_cleared >= 4:
-            score += SCORE_MULTIPLIER * 8
+            score += SCORE_MULTIPLIER * 2 * lines_cleared
 
     return lines_cleared
 
