@@ -62,9 +62,11 @@ Không cần cài thư viện ngoài.
 | `d` | Sang phải |
 | `w` | Xoay khối |
 | `x` | Rơi nhanh một hàng |
+| `p` | Tạm dừng / chơi tiếp |
 | `q` | Thoát |
 
-Bản gốc của giảng viên chưa có phím xoay. Phím `w` do nhóm bổ sung.
+Bản gốc của giảng viên chưa có phím xoay và cũng chưa có màn hình bắt đầu.
+Phím `w` và `p` do nhóm bổ sung.
 
 ---
 
