@@ -243,7 +243,7 @@ def draw():
     os.system("cls")
 
     # Hiên thị điểm và số hàng đã xoá
-    print(f" SCORE: {score}  |  REMOVED LINES: {total_lines_removed}")
+    print(f" ĐIỂM: {score}  |  DÒNG: {total_lines_removed}")
 
     for i in range(H):
         row = []
