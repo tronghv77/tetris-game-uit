@@ -39,6 +39,8 @@ Bản port cố ý giữ nguyên lối viết của bản C++: dùng biến toà
 | `initBoard` | `init_board` |
 | `draw` | `draw` |
 | `removeLine` | `remove_line` |
+| — | `rotate_block` — nhóm thêm |
+| — | `is_game_over`, `draw_game_over` — nhóm thêm |
 
 ---
 
@@ -62,9 +64,11 @@ Không cần cài thư viện ngoài.
 | `d` | Sang phải |
 | `w` | Xoay khối |
 | `x` | Rơi nhanh một hàng |
+| `r` | Chơi lại, sau khi thua |
 | `q` | Thoát |
 
-Bản gốc của giảng viên chưa có phím xoay. Phím `w` do nhóm bổ sung.
+Bản gốc của giảng viên chưa có phím xoay và cũng chưa có phần kết thúc game.
+Phím `w` và `r` do nhóm bổ sung.
 
 ---
 

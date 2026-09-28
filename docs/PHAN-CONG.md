@@ -71,9 +71,9 @@ chưa bao giờ xuất hiện — đây là chỗ cần bàn với cả nhóm kh
 
 **Việc 1:** mỗi lần xoá được hàng thì tốc độ rơi nhanh hơn
 
-- [ ] Thay thời gian chờ cố định 0.5 giây ở cuối `main()` bằng một biến tốc độ
-- [ ] Mỗi lần `remove_line()` xoá được hàng thì giảm thời gian chờ
-- [ ] Đặt một mức chờ tối thiểu để game không nhanh tới mức không chơi nổi
+- [x] Thay thời gian chờ cố định 0.5 giây ở cuối `main()` bằng một biến tốc độ
+- [x] Mỗi lần `remove_line()` xoá được hàng thì giảm thời gian chờ
+- [x] Đặt một mức chờ tối thiểu để game không nhanh tới mức không chơi nổi
 
 **Xong khi:** xoá càng nhiều hàng thì khối rơi càng nhanh, nhưng vẫn chơi được.
 
@@ -87,7 +87,7 @@ trên Google Docs của nhóm.
 
 ## Lỗi tìm được trong mã nguồn gốc của giảng viên
 
-Ba lỗi nhóm phát hiện khi đọc và port `main.cpp`. Nên đưa vào báo cáo.
+Bốn lỗi nhóm phát hiện khi đọc, port và chơi thử `main.cpp`. Nên đưa vào báo cáo.
 
 1. **`rand()%7` chỉ sinh ra hai loại khối.** Bảy phần tử đầu của mảng `blocks`
    chỉ gồm khối I và O, nên T, S, Z, J, L ở vị trí 11–15 không bao giờ xuất
@@ -97,6 +97,9 @@ Ba lỗi nhóm phát hiện khi đọc và port `main.cpp`. Nên đưa vào báo
    Tuấn xử lý bằng cách dừng ở hàng 2 rồi đặt lại hàng 1 thành hàng trống.
 3. **Ô hiển thị bị kéo dẹt.** Ký tự trong cửa sổ dòng lệnh cao hơn là rộng nên
    bảng chơi thành hình chữ nhật. Tín xử lý bằng cách in mỗi ô thành hai ký tự.
+4. **Game không bao giờ kết thúc.** Bảng đầy tới đỉnh thì khối mới bị khoá ngay
+   tại chỗ rồi lại sinh khối mới, vòng `while (1)` chạy mãi, chỉ thoát được bằng
+   phím `q`. Trọng xử lý bằng `is_game_over()` và màn hình báo thua.
 
 ---
 
