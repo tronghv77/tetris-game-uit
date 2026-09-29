@@ -92,6 +92,34 @@ chưa có phần kết thúc game. Phím `w`, `p` và `r` do nhóm bổ sung.
 
 ---
 
+## ✅ Kiểm tra trước khi tạo Pull Request
+
+```bash
+python kiem_tra.py
+```
+
+Chạy một lệnh là biết phần mình vừa sửa có làm hỏng phần của người khác
+không. Không cần cài gì thêm, và file này **không sửa** `tetris.py`, chỉ
+nạp vào rồi gọi từng hàm.
+
+Hiện có 52 phép kiểm tra, chia theo phần việc của từng người:
+
+| Nhóm kiểm tra | Phần việc của |
+|---|---|
+| Bảng chơi, các khối, `can_move()` | code gốc |
+| Xoay khối — đủ 7 loại, không xuyên tường | Nguyên |
+| Xoá hàng — trả về đúng số hàng, không sinh tường | Tuấn |
+| Tăng tốc độ rơi — có sàn tối thiểu, đặt lại mỗi ván | Thảo |
+| Khối kế tiếp — khung NEXT đúng khối sắp rơi | Tín |
+| Kết thúc game, màn hình bắt đầu, tạm dừng | Trọng |
+| Chơi thử một mạch bằng bàn phím giả lập | cả nhóm |
+
+Vì sao cần: cả nhóm cùng sửa một file, mà mỗi người chỉ chơi thử phần
+của mình. Phần xoay khối của Nguyên từng làm lộ ra một lỗi trong phần
+kết thúc game của Trọng, nhưng tới lúc merge mới biết.
+
+---
+
 ## 📋 Yêu cầu định lượng của môn học
 
 | Chỉ tiêu | Ghi chú |
