@@ -83,11 +83,12 @@ Không cần cài thư viện ngoài.
 | `d` | Sang phải |
 | `w` | Xoay khối |
 | `x` | Rơi nhanh một hàng |
+| `p` | Tạm dừng / chơi tiếp |
 | `r` | Chơi lại, sau khi thua |
 | `q` | Thoát |
 
-Bản gốc của giảng viên chưa có phím xoay và cũng chưa có phần kết thúc game.
-Phím `w` và `r` do nhóm bổ sung.
+Bản gốc của giảng viên chưa có phím xoay, chưa có màn hình bắt đầu và cũng
+chưa có phần kết thúc game. Phím `w`, `p` và `r` do nhóm bổ sung.
 
 ---
 

@@ -336,6 +336,61 @@ def rotate_block():
 
 
 # ============================================================
+# MÀN HÌNH BẮT ĐẦU
+# ============================================================
+
+def wait_any_key():
+    """Chờ người chơi bấm một phím, trả về phím đó.
+
+    Bỏ hết phím còn sót trong bộ đệm trước đã, không thì mấy phím bấm
+    lúc đang chơi sẽ làm màn hình trôi qua ngay lập tức.
+    """
+    while msvcrt.kbhit():
+        msvcrt.getch()
+
+    return msvcrt.getch().decode("utf-8", errors="ignore")
+
+
+def draw_start_screen():
+    """Màn hình chào, hiện bảng phím trước khi vào ván đầu tiên."""
+    os.system("cls")
+    print()
+    print("    ==================================")
+    print("              T E T R I S             ")
+    print("    ==================================")
+    print()
+    print("      Do an Ky nang nghe nghiep - UIT")
+    print("      Nhom 07")
+    print()
+    print("    ----------------------------------")
+    print("      a / d    sang trai / sang phai")
+    print("      w        xoay khoi")
+    print("      x        roi nhanh mot hang")
+    print("      p        tam dung / choi tiep")
+    print("      r        choi lai, sau khi thua")
+    print("      q        thoat")
+    print("    ----------------------------------")
+    print()
+    print("      Nhan phim bat ky de bat dau...")
+
+
+# ============================================================
+# MÀN HÌNH TẠM DỪNG
+# ============================================================
+
+def draw_pause_screen():
+    """Vẽ bảng chơi kèm khung báo đang tạm dừng."""
+    draw()
+    print()
+    print("  ===============================")
+    print("            TAM DUNG             ")
+    print("  ===============================")
+    print()
+    print("     Nhan p de choi tiep")
+    print("     Nhan q de thoat")
+
+
+# ============================================================
 # MÀN HÌNH KẾT THÚC
 # ============================================================
 
@@ -390,6 +445,12 @@ def main():
         15      # L
     ]
 
+    # Màn hình chào, bấm q ở đây là thoát luôn
+    draw_start_screen()
+
+    if wait_any_key() == "q":
+        return
+
     # Vòng ngoài: mỗi lượt là một ván chơi
     while True:
 
@@ -435,6 +496,18 @@ def main():
                 # Xoay
                 if c == "w":
                     rotate_block()
+
+                # Tạm dừng
+                if c == "p":
+
+                    draw_pause_screen()
+
+                    while True:
+                        phim = wait_any_key()
+                        if phim == "p":
+                            break
+                        if phim == "q":
+                            return
 
                 # Thoát hẳn, không chơi lại
                 if c == "q":
