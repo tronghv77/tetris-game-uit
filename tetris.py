@@ -36,6 +36,7 @@ board = [[" "] * W for _ in range(H)]
 x = 0
 y = 0
 b = 0
+next_b = 0
 
 # Tốc độ rơi mặc định (giây)
 fall_speed = 0.5
@@ -237,6 +238,17 @@ def init_board():
 def draw():
     os.system("cls")
 
+    preview = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            if blocks[next_b][i][j] != " ":
+                row.append("[]")
+            else:
+                row.append("  ")
+        preview.append("|" + "".join(row) + "|")
+
+    print(" " * (W * 2 + 4) + "NEXT")
     for i in range(H):
         row = []
         for cell in board[i]:
@@ -246,7 +258,10 @@ def draw():
                 row.append("  ")
             else:
                 row.append("[]")
-        print("".join(row))
+
+        board_line = "".join(row)
+        preview_line = preview[i] if i < 4 else "        "
+        print(board_line + "   " + preview_line)
 
 
 # ============================================================
@@ -413,7 +428,7 @@ def is_game_over():
 # ============================================================
 def main():
     """Vòng lặp game. Dịch từ hàm main trong C++."""
-    global x, y, b, fall_speed
+    global x, y, b, next_b, fall_speed
 
     random.seed()
 
@@ -448,7 +463,9 @@ def main():
 
         x = 5
         y = 0
-        b = random.choice(first_states)
+        next_b = random.choice(first_states)
+        b = next_b
+        next_b = random.choice(first_states)
 
         # Vòng trong: một ván chơi
         while True:
@@ -519,7 +536,8 @@ def main():
                 # Tạo khối mới
                 x = 5
                 y = 0
-                b = random.choice(first_states)
+                b = next_b
+                next_b = random.choice(first_states)
 
                 # Khối mới không có chỗ đứng nghĩa là thua
                 if is_game_over():
