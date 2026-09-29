@@ -330,3 +330,137 @@ def kiem_tra_khoi_ke_tiep(game):
     kiem("Lúc sinh khối mới: lấy b = next_b rồi mới bốc next_b khác",
          ma_nguon.count("b = next_b") >= 2,
          "phải sửa ở cả hai chỗ bốc khối")
+
+
+# ============================================================
+# KẾT THÚC GAME VÀ CÁC MÀN HÌNH — phần của Hồ Văn Trọng
+# ============================================================
+
+def kiem_tra_ket_thuc(game):
+    print("\nKẾT THÚC GAME")
+
+    # Bảng trống thì khối nào sinh ra cũng phải đứng được.
+    # Khối I, T, J, L có ô nằm ngay hàng 0 là hàng viền, nên nếu xét
+    # can_move(0, 0) thì ván nào cũng báo thua từ khối đầu tiên.
+    bao_thua_oan = []
+    for so, ten in zip(KHOI_BAN_DAU, TEN_KHOI):
+        game.init_board()
+        game.x, game.y, game.b = 5, 0, so
+        if game.is_game_over():
+            bao_thua_oan.append(ten)
+    kiem("Bảng trống: cả 7 loại khối đều không báo thua",
+         not bao_thua_oan,
+         f"báo oan: {bao_thua_oan}" if bao_thua_oan else "")
+
+    # Bảng gần đầy nhưng còn chỗ thì chưa thua
+    game.init_board()
+    for i in range(game.H - 2, 5, -1):
+        for j in range(1, game.W - 1):
+            game.board[i][j] = "X"
+    game.x, game.y, game.b = 5, 0, 2
+    kiem("Bảng gần đầy nhưng còn chỗ: chưa thua", not game.is_game_over())
+
+    # Xếp cao dần, tới lúc nào đó phải báo thua
+    game.init_board()
+    thua_o_hang = None
+    for hang in range(game.H - 2, 0, -1):
+        for j in range(1, game.W - 1):
+            game.board[hang][j] = "X"
+        game.x, game.y, game.b = 5, 0, 2
+        if game.is_game_over():
+            thua_o_hang = hang
+            break
+    kiem("Xếp đầy tới đỉnh thì báo thua", thua_o_hang is not None,
+         f"báo thua khi chồng tới hàng {thua_o_hang}")
+
+    _, man_hinh = im_lang(game.draw_game_over, 7)
+    kiem("Màn hình thua có chữ GAME OVER", "GAME OVER" in man_hinh)
+    kiem("Màn hình thua hiện số khối đã xếp", "7" in man_hinh)
+    kiem("Màn hình thua chỉ cách chơi lại",
+         "r" in man_hinh and "q" in man_hinh)
+
+
+def kiem_tra_man_hinh(game):
+    print("\nMÀN HÌNH BẮT ĐẦU VÀ TẠM DỪNG")
+
+    _, chao = im_lang(game.draw_start_screen)
+    kiem("Màn hình bắt đầu có tên game", "T E T R I S" in chao)
+    for phim in ("a", "d", "w", "x", "p", "r", "q"):
+        pass
+    thieu = [p for p in ("a / d", "w", "x", "p", "r", "q") if p not in chao]
+    kiem("Màn hình bắt đầu liệt kê đủ bảng phím", not thieu,
+         f"thiếu: {thieu}" if thieu else "")
+
+    game.init_board()
+    game.x, game.y, game.b = 5, 5, 2
+    _, tam_dung = im_lang(game.draw_pause_screen)
+    kiem("Màn hình tạm dừng hiện đúng", "TAM DUNG" in tam_dung)
+
+    ma_nguon = io.open("tetris.py", encoding="utf-8").read()
+    kiem("wait_any_key() dọn bộ đệm trước khi chờ",
+         "while msvcrt.kbhit()" in ma_nguon,
+         "không thì màn hình trôi qua ngay")
+
+
+# ============================================================
+# CHƠI THỬ TRỌN VẸN
+# ============================================================
+
+def kiem_tra_choi_thu(game):
+    print("\nCHƠI THỬ MỘT MẠCH")
+
+    # Dấu b"\x00" đầu mỗi lần chờ là phím rác, để wait_any_key() dọn đi.
+    nap_phim([b"\x00", b"z"]              # qua màn hình bắt đầu
+             + [b"x"] * 3 + [b"w"]        # rơi nhanh, xoay thử
+             + [b"p"] + [b"\x00", b"p"]   # tạm dừng rồi chơi tiếp
+             + [b"x"] * 4000)             # chơi tới lúc thua
+    _, man_hinh = im_lang(game.main)
+
+    kiem("Hiện màn hình bắt đầu", "T E T R I S" in man_hinh)
+    kiem("Khung NEXT vẫn vẽ trong lúc chơi", "NEXT" in man_hinh)
+    kiem("Bấm p thì tạm dừng được", "TAM DUNG" in man_hinh)
+    kiem("Xếp đầy bảng thì báo GAME OVER", "GAME OVER" in man_hinh)
+    kiem("main() kết thúc chứ không lặp vô hạn", True,
+         "lỗi thứ 4 trong main.cpp")
+
+    # Thua rồi bấm r phải chơi được ván mới
+    nap_phim([b"\x00", b"z"] + [b"x"] * 4000)
+    _, lan_hai = im_lang(game.main)
+    kiem("Chơi lại được ván thứ hai", lan_hai.count("GAME OVER") >= 1)
+
+
+# ============================================================
+# CHẠY TẤT CẢ
+# ============================================================
+
+def main():
+    print("=" * 60)
+    print("  KIỂM TRA TỰ ĐỘNG CHO tetris.py")
+    print("=" * 60)
+
+    game = nap_game()
+
+    kiem_tra_ban_va_khoi(game)
+    kiem_tra_xoay(game)
+    kiem_tra_xoa_hang(game)
+    kiem_tra_tang_toc(game)
+    kiem_tra_khoi_ke_tiep(game)
+    kiem_tra_ket_thuc(game)
+    kiem_tra_man_hinh(game)
+    kiem_tra_choi_thu(game)
+
+    print()
+    print("=" * 60)
+    so_sai = bao_cao()
+    print("=" * 60)
+
+    if so_sai:
+        print("\n  Có chỗ sai. Sửa xong hãy tạo Pull Request.")
+    else:
+        print("\n  Tất cả đều đúng. Tạo Pull Request được rồi.")
+
+    return 1 if so_sai else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
