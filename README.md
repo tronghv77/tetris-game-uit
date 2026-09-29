@@ -82,13 +82,14 @@ Không cần cài thư viện ngoài.
 | `a` | Sang trái |
 | `d` | Sang phải |
 | `w` | Xoay khối |
+| `s` | Xoay ngược chiều |
 | `x` | Rơi nhanh một hàng |
 | `p` | Tạm dừng / chơi tiếp |
 | `r` | Chơi lại, sau khi thua |
 | `q` | Thoát |
 
 Bản gốc của giảng viên chưa có phím xoay, chưa có màn hình bắt đầu và cũng
-chưa có phần kết thúc game. Phím `w`, `p` và `r` do nhóm bổ sung.
+chưa có phần kết thúc game. Phím `w`, `s`, `p` và `r` do nhóm bổ sung.
 
 ---
 
@@ -102,12 +103,12 @@ Chạy một lệnh là biết phần mình vừa sửa có làm hỏng phần c
 không. Không cần cài gì thêm, và file này **không sửa** `tetris.py`, chỉ
 nạp vào rồi gọi từng hàm.
 
-Hiện có 52 phép kiểm tra, chia theo phần việc của từng người:
+Hiện có 54 phép kiểm tra, chia theo phần việc của từng người:
 
 | Nhóm kiểm tra | Phần việc của |
 |---|---|
 | Bảng chơi, các khối, `can_move()` | code gốc |
-| Xoay khối — đủ 7 loại, không xuyên tường | Nguyên |
+| Xoay khối — đủ 7 loại, xoay ngược, không xuyên tường | Nguyên |
 | Xoá hàng — trả về đúng số hàng, không sinh tường | Tuấn |
 | Tăng tốc độ rơi — có sàn tối thiểu, đặt lại mỗi ván | Thảo |
 | Khối kế tiếp — khung NEXT đúng khối sắp rơi | Tín |
