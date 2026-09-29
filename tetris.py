@@ -367,6 +367,7 @@ def draw_start_screen():
     print("      w        xoay khoi")
     print("      x        roi nhanh mot hang")
     print("      p        tam dung / choi tiep")
+    print("      r        choi lai, sau khi thua")
     print("      q        thoat")
     print("    ----------------------------------")
     print()
