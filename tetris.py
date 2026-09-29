@@ -41,6 +41,11 @@ next_b = 0
 # Tốc độ rơi mặc định (giây)
 fall_speed = 0.5
 
+# Biến điểm và số hàng đã xoá
+total_lines_removed = 0
+score = 0
+SCORE_MULTIPLIER = 100
+
 # ============================================================
 # CÁC KHỐI VÀ TRẠNG THÁI XOAY
 # ============================================================
@@ -238,6 +243,9 @@ def init_board():
 def draw():
     os.system("cls")
 
+    # Hiển thị điểm và số hàng đã xoá
+    print(f" ĐIỂM: {score}  |  DÒNG: {total_lines_removed}")
+
     preview = []
     for i in range(4):
         row = []
@@ -269,12 +277,14 @@ def draw():
 # ============================================================
 def remove_line():
     """Xóa các hàng đầy và trả về số hàng đã xóa."""
-    lines_cleared = 0
+    lines_cleared = 0    
+    global total_lines_removed, score
     i = H - 2
 
     while i > 0:
         if " " not in board[i]:
             lines_cleared += 1
+            total_lines_removed += 1
             for ii in range(i, 1, -1):
                 board[ii] = board[ii - 1][:]
 
@@ -284,6 +294,21 @@ def remove_line():
             time.sleep(0.2)
         else:
             i -= 1
+
+    # Cập nhật điểm số dựa trên số hàng đã xóa
+    # Yêu cầu: Xoá 1 hàng được 100 điểm, 2 hàng 300, 3 hàng 500, 4 hàng cùng lúc trở đi 800 điểm
+    # Chuyển đổi sang hệ số nhân để hỗ trợ thêm điểm khi dòng nhiều hơn 4
+    # Khi dòng nhiều hơn 4, hệ số sẽ là 200 điểm cho mỗi dòng thêm, ví dụ: 5 dòng = 1000 điểm, 6 dòng = 1200 điểm, ...
+    # Chỉ update score nếu có ít nhất 1 hàng được xóa
+    if lines_cleared > 0:
+        if lines_cleared == 1:
+            score += SCORE_MULTIPLIER
+        elif lines_cleared == 2:
+            score += SCORE_MULTIPLIER * 3
+        elif lines_cleared == 3:
+            score += SCORE_MULTIPLIER * 5
+        elif lines_cleared >= 4:
+            score += SCORE_MULTIPLIER * 2 * lines_cleared
 
     return lines_cleared
 
@@ -453,6 +478,11 @@ def main():
 
     # Vòng ngoài: mỗi lượt là một ván chơi
     while True:
+
+        # Reset điểm và số hàng đã xoá
+        global total_lines_removed, score
+        total_lines_removed = 0
+        score = 0
 
         init_board()
 
