@@ -399,6 +399,7 @@ def draw_start_screen():
     print("    ----------------------------------")
     print("      a / d    sang trai / sang phai")
     print("      w        xoay khoi")
+    print("      s        xoay nguoc chieu")
     print("      x        roi nhanh mot hang")
     print("      p        tam dung / choi tiep")
     print("      r        choi lai, sau khi thua")
@@ -530,6 +531,10 @@ def main():
                 # Xoay
                 if c == "w":
                     rotate_block()
+
+                # Xoay ngược chiều
+                if c == "s":
+                    rotate_block(nguoc=True)
 
                 # Tạm dừng
                 if c == "p":
