@@ -265,3 +265,68 @@ def kiem_tra_xoa_hang(game):
     im_lang(game.remove_line)
     kiem("Phần phía trên tụt xuống đúng một hàng",
          game.board[game.H - 2][3] == "T")
+
+
+# ============================================================
+# TĂNG TỐC ĐỘ RƠI — phần của Phan Nguyễn Minh Thảo
+# ============================================================
+
+def kiem_tra_tang_toc(game):
+    print("\nTĂNG TỐC ĐỘ RƠI")
+
+    ma_nguon = io.open("tetris.py", encoding="utf-8").read()
+
+    kiem("main() dùng biến fall_speed chứ không phải số cố định",
+         "time.sleep(fall_speed)" in ma_nguon)
+
+    kiem("Xoá được hàng thì giảm thời gian chờ",
+         "fall_speed - 0.05 * lines" in ma_nguon
+         or "fall_speed -" in ma_nguon)
+
+    kiem("Có sàn tối thiểu để game không nhanh tới mức không chơi nổi",
+         "max(0.1" in ma_nguon)
+
+    # Tốc độ phải được đặt lại mỗi ván, không thì ván sau thừa hưởng
+    # tốc độ nhanh của ván trước, vừa bấm r là khối rơi vèo vèo.
+    trong_vong_ngoai = "        fall_speed = 0.5" in ma_nguon
+    kiem("fall_speed được đặt lại ở đầu mỗi ván", trong_vong_ngoai)
+
+    # Công thức: xoá càng nhiều hàng một lúc thì giảm càng mạnh
+    toc_do = 0.5
+    for so_hang in (1, 2, 4):
+        moi = max(0.1, toc_do - 0.05 * so_hang)
+        kiem(f"Xoá {so_hang} hàng: {toc_do:.2f} giây -> {moi:.2f} giây",
+             moi < toc_do or toc_do == 0.1)
+        toc_do = moi
+
+    kiem("Giảm mãi cũng không xuống dưới 0.1 giây",
+         max(0.1, 0.1 - 0.05 * 4) == 0.1)
+
+
+# ============================================================
+# KHỐI KẾ TIẾP — phần của Đặng Đức Tín
+# ============================================================
+
+def kiem_tra_khoi_ke_tiep(game):
+    print("\nKHỐI KẾ TIẾP")
+
+    kiem("Có biến next_b", hasattr(game, "next_b"))
+
+    game.init_board()
+    game.x, game.y, game.b = 5, 5, 2
+    game.next_b = 11                       # khối J
+    _, man_hinh = im_lang(game.draw)
+
+    kiem("Màn hình có chữ NEXT", "NEXT" in man_hinh)
+
+    # Khung xem trước phải vẽ đúng khối đang nằm trong next_b
+    o_khoi_j = sum(1 for hang in game.blocks[11] for c in hang if c != " ")
+    kiem("Khung xem trước vẽ đúng số ô của khối đang chờ",
+         man_hinh.count("[]") >= o_khoi_j, f"khối J có {o_khoi_j} ô")
+
+    # Quan trọng nhất: khối hiện trong khung NEXT phải đúng là khối
+    # rơi xuống ngay sau. Sai chỗ này thì người chơi bị lừa.
+    ma_nguon = io.open("tetris.py", encoding="utf-8").read()
+    kiem("Lúc sinh khối mới: lấy b = next_b rồi mới bốc next_b khác",
+         ma_nguon.count("b = next_b") >= 2,
+         "phải sửa ở cả hai chỗ bốc khối")
