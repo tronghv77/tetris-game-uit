@@ -92,12 +92,15 @@ def kiem(ten, dung, ghi_chu=""):
 
 
 def im_lang(ham, *tham_so):
-    """Gọi một hàm có in ra màn hình, nuốt phần in đó, trả về chuỗi đã in."""
+    """Gọi một hàm có in ra màn hình mà không để nó làm rối kết quả.
+
+    Trả về cặp (giá trị hàm trả về, phần chữ nó đã in).
+    """
     cu = sys.stdout
     sys.stdout = io.StringIO()
     try:
-        ham(*tham_so)
-        return sys.stdout.getvalue()
+        gia_tri = ham(*tham_so)
+        return gia_tri, sys.stdout.getvalue()
     finally:
         sys.stdout = cu
 
@@ -233,15 +236,7 @@ def kiem_tra_xoa_hang(game):
 
     for n in (1, 2, 3, 4):
         _dung_hang_day(game, n)
-        so = im_lang(game.remove_line) and None
-        # gọi lại cho sạch, lần trên chỉ để nuốt phần in ra
-        _dung_hang_day(game, n)
-        cu = sys.stdout
-        sys.stdout = io.StringIO()
-        try:
-            so = game.remove_line()
-        finally:
-            sys.stdout = cu
+        so, _ = im_lang(game.remove_line)
         kiem(f"Xoá {n} hàng đầy thì trả về {n}", so == n, f"trả về {so}")
 
     # Hàng thiếu một ô thì không được tính là đầy
@@ -249,22 +244,12 @@ def kiem_tra_xoa_hang(game):
     game.x, game.y, game.b = 5, 5, 2
     for j in range(1, game.W - 2):
         game.board[game.H - 2][j] = "X"
-    cu = sys.stdout
-    sys.stdout = io.StringIO()
-    try:
-        so = game.remove_line()
-    finally:
-        sys.stdout = cu
+    so, _ = im_lang(game.remove_line)
     kiem("Hàng chưa đầy thì không xoá", so == 0, f"trả về {so}")
 
     # Lỗi trong bản C++ của thầy: hàng trên cùng bị biến thành tường
     _dung_hang_day(game, 1)
-    cu = sys.stdout
-    sys.stdout = io.StringIO()
-    try:
-        game.remove_line()
-    finally:
-        sys.stdout = cu
+    im_lang(game.remove_line)
     hang_mot = game.board[1]
     kiem("Sau khi xoá, hàng 1 vẫn là hàng trống chứ không thành tường",
          hang_mot[0] == "#" and hang_mot[-1] == "#"
@@ -277,11 +262,6 @@ def kiem_tra_xoa_hang(game):
     for j in range(1, game.W - 1):
         game.board[game.H - 2][j] = "X"
     game.board[game.H - 3][3] = "T"       # một ô đánh dấu nằm ngay phía trên
-    cu = sys.stdout
-    sys.stdout = io.StringIO()
-    try:
-        game.remove_line()
-    finally:
-        sys.stdout = cu
+    im_lang(game.remove_line)
     kiem("Phần phía trên tụt xuống đúng một hàng",
          game.board[game.H - 2][3] == "T")
