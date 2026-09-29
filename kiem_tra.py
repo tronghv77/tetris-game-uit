@@ -434,6 +434,14 @@ def kiem_tra_choi_thu(game):
 # ============================================================
 
 def main():
+    # Cửa sổ dòng lệnh Windows hay dùng bảng mã cp1252, không có chữ tiếng
+    # Việt có dấu. Không có mấy dòng này thì chạy
+    # `python kiem_tra.py > ket_qua.txt` là văng UnicodeEncodeError.
+    try:
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, OSError):
+        pass
+
     print("=" * 60)
     print("  KIỂM TRA TỰ ĐỘNG CHO tetris.py")
     print("=" * 60)
