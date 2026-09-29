@@ -14,6 +14,7 @@ kết thúc game của Trọng, mà tới lúc merge mới biết.
 """
 
 import io
+import re
 import sys
 import types
 
@@ -163,10 +164,12 @@ def kiem_tra_ban_va_khoi(game):
     game.x = 1
     kiem("can_move() chặn khi đụng viền trái", not game.can_move(-2, 0))
 
+    # Khối O có ô nằm ở hàng 1 và 2 của lưới 4x4, nên với y = 5 thì hai ô
+    # đó nằm ở hàng 6 và 7 của bảng. Đi xuống 2 là đụng hàng 8.
     game.x, game.y = 5, 5
     for j in range(1, game.W - 1):
         game.board[8][j] = "X"
-    kiem("can_move() chặn khi đụng khối đã xếp", not game.can_move(0, 3))
+    kiem("can_move() chặn khi đụng khối đã xếp", not game.can_move(0, 2))
 
 
 # ============================================================
@@ -283,8 +286,10 @@ def kiem_tra_tang_toc(game):
          "fall_speed - 0.05 * lines" in ma_nguon
          or "fall_speed -" in ma_nguon)
 
+    # Tìm bằng biểu thức chính quy, để không phụ thuộc vào việc đoạn đó
+    # được viết trên một dòng hay xuống dòng.
     kiem("Có sàn tối thiểu để game không nhanh tới mức không chơi nổi",
-         "max(0.1" in ma_nguon)
+         re.search(r"max\(\s*0\.1", ma_nguon) is not None)
 
     # Tốc độ phải được đặt lại mỗi ván, không thì ván sau thừa hưởng
     # tốc độ nhanh của ván trước, vừa bấm r là khối rơi vèo vèo.
