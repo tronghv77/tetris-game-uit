@@ -17,8 +17,21 @@ Bảng đối chiếu tên hàm:
     draw            draw
     removeLine      remove_line
 
-Cách chơi:  a sang trái, d sang phải, w xoay khối, x rơi nhanh, q thoát.
-Chạy:       python tetris.py
+Các hàm nhóm tự thêm, bản C++ không có:
+
+    rotate_block                    xoay khối
+    is_game_over, draw_game_over    kết thúc game
+    draw_start_screen               màn hình chào
+    draw_pause_screen, wait_any_key tạm dừng
+
+Cách chơi:
+    a  sang trái        d  sang phải
+    w  xoay             s  xoay ngược chiều
+    x  rơi nhanh        p  tạm dừng
+    r  chơi lại         q  thoát
+
+Chạy game:      python tetris.py
+Chạy kiểm tra:  python kiem_tra.py
 """
 
 import msvcrt
