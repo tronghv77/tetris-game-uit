@@ -164,3 +164,52 @@ def kiem_tra_ban_va_khoi(game):
     for j in range(1, game.W - 1):
         game.board[8][j] = "X"
     kiem("can_move() chặn khi đụng khối đã xếp", not game.can_move(0, 3))
+
+
+# ============================================================
+# XOAY KHỐI — phần của Trương Đình Nguyên
+# ============================================================
+
+def kiem_tra_xoay(game):
+    print("\nXOAY KHỐI")
+
+    # Số trạng thái của mỗi loại: I và O đối xứng nên ít, T J L có đủ 4 hướng
+    vong_mong_doi = {"I": 2, "O": 1, "T": 4, "S": 2, "Z": 2, "J": 4, "L": 4}
+
+    for so, ten in zip(KHOI_BAN_DAU, TEN_KHOI):
+        game.init_board()
+        game.x, game.y, game.b = 5, 5, so
+
+        da_qua = [so]
+        for _ in range(8):
+            game.rotate_block()
+            if game.b == so:
+                break
+            da_qua.append(game.b)
+
+        kiem(f"Khối {ten} xoay hết {vong_mong_doi[ten]} trạng thái rồi về chỗ cũ",
+             len(da_qua) == vong_mong_doi[ten] and game.b == so,
+             f"đi qua {len(da_qua)} trạng thái")
+
+    # Xoay sát tường không được phép xuyên qua
+    game.init_board()
+    game.x, game.y, game.b = 1, 5, 9      # khối Z nằm ngang, sát tường trái
+    truoc = game.b
+    game.rotate_block()
+    hop_le = game.can_move(0, 0)
+    kiem("Xoay sát tường: hoặc không xoay, hoặc xoay ra chỗ hợp lệ",
+         hop_le, "không xuyên tường")
+
+    # Xoay khi bị khối khác chặn thì phải giữ nguyên
+    game.init_board()
+    game.x, game.y, game.b = 5, 5, 0      # khối I dựng đứng
+    for i in range(game.H - 6, game.H - 1):
+        for j in range(1, game.W - 1):
+            game.board[i][j] = "X"
+    for j in range(1, game.W - 1):
+        if j != 6:
+            game.board[6][j] = "X"
+    truoc = game.b
+    game.rotate_block()
+    kiem("Bị khối khác chặn thì giữ nguyên trạng thái",
+         game.b == truoc or game.can_move(0, 0))
