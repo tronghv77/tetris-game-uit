@@ -36,6 +36,7 @@ board = [[" "] * W for _ in range(H)]
 x = 0
 y = 0
 b = 0
+next_b = 0
 
 # Tốc độ rơi mặc định (giây)
 fall_speed = 0.5
@@ -245,6 +246,17 @@ def draw():
     # Hiển thị điểm và số hàng đã xoá
     print(f" ĐIỂM: {score}  |  DÒNG: {total_lines_removed}")
 
+    preview = []
+    for i in range(4):
+        row = []
+        for j in range(4):
+            if blocks[next_b][i][j] != " ":
+                row.append("[]")
+            else:
+                row.append("  ")
+        preview.append("|" + "".join(row) + "|")
+
+    print(" " * (W * 2 + 4) + "NEXT")
     for i in range(H):
         row = []
         for cell in board[i]:
@@ -254,7 +266,10 @@ def draw():
                 row.append("  ")
             else:
                 row.append("[]")
-        print("".join(row))
+
+        board_line = "".join(row)
+        preview_line = preview[i] if i < 4 else "        "
+        print(board_line + "   " + preview_line)
 
 
 # ============================================================
@@ -346,6 +361,61 @@ def rotate_block():
 
 
 # ============================================================
+# MÀN HÌNH BẮT ĐẦU
+# ============================================================
+
+def wait_any_key():
+    """Chờ người chơi bấm một phím, trả về phím đó.
+
+    Bỏ hết phím còn sót trong bộ đệm trước đã, không thì mấy phím bấm
+    lúc đang chơi sẽ làm màn hình trôi qua ngay lập tức.
+    """
+    while msvcrt.kbhit():
+        msvcrt.getch()
+
+    return msvcrt.getch().decode("utf-8", errors="ignore")
+
+
+def draw_start_screen():
+    """Màn hình chào, hiện bảng phím trước khi vào ván đầu tiên."""
+    os.system("cls")
+    print()
+    print("    ==================================")
+    print("              T E T R I S             ")
+    print("    ==================================")
+    print()
+    print("      Do an Ky nang nghe nghiep - UIT")
+    print("      Nhom 07")
+    print()
+    print("    ----------------------------------")
+    print("      a / d    sang trai / sang phai")
+    print("      w        xoay khoi")
+    print("      x        roi nhanh mot hang")
+    print("      p        tam dung / choi tiep")
+    print("      r        choi lai, sau khi thua")
+    print("      q        thoat")
+    print("    ----------------------------------")
+    print()
+    print("      Nhan phim bat ky de bat dau...")
+
+
+# ============================================================
+# MÀN HÌNH TẠM DỪNG
+# ============================================================
+
+def draw_pause_screen():
+    """Vẽ bảng chơi kèm khung báo đang tạm dừng."""
+    draw()
+    print()
+    print("  ===============================")
+    print("            TAM DUNG             ")
+    print("  ===============================")
+    print()
+    print("     Nhan p de choi tiep")
+    print("     Nhan q de thoat")
+
+
+# ============================================================
 # MÀN HÌNH KẾT THÚC
 # ============================================================
 
@@ -384,7 +454,7 @@ def is_game_over():
 # ============================================================
 def main():
     """Vòng lặp game. Dịch từ hàm main trong C++."""
-    global x, y, b, fall_speed
+    global x, y, b, next_b, fall_speed
 
     random.seed()
 
@@ -399,6 +469,12 @@ def main():
         11,     # J
         15      # L
     ]
+
+    # Màn hình chào, bấm q ở đây là thoát luôn
+    draw_start_screen()
+
+    if wait_any_key() == "q":
+        return
 
     # Vòng ngoài: mỗi lượt là một ván chơi
     while True:
@@ -418,7 +494,9 @@ def main():
 
         x = 5
         y = 0
-        b = random.choice(first_states)
+        next_b = random.choice(first_states)
+        b = next_b
+        next_b = random.choice(first_states)
 
         # Vòng trong: một ván chơi
         while True:
@@ -449,6 +527,18 @@ def main():
                 if c == "w":
                     rotate_block()
 
+                # Tạm dừng
+                if c == "p":
+
+                    draw_pause_screen()
+
+                    while True:
+                        phim = wait_any_key()
+                        if phim == "p":
+                            break
+                        if phim == "q":
+                            return
+
                 # Thoát hẳn, không chơi lại
                 if c == "q":
                     return
@@ -477,7 +567,8 @@ def main():
                 # Tạo khối mới
                 x = 5
                 y = 0
-                b = random.choice(first_states)
+                b = next_b
+                next_b = random.choice(first_states)
 
                 # Khối mới không có chỗ đứng nghĩa là thua
                 if is_game_over():
