@@ -27,6 +27,25 @@ Chi tiết từng việc: [docs/PHAN-CONG.md](docs/PHAN-CONG.md)
 | `main.cpp` | **Mã nguồn gốc của giảng viên**, giữ nguyên không sửa. Đây là điểm xuất phát của cả nhóm. |
 | `tetris.py` | Bản port sang Python, dịch sát từng hàm từ `main.cpp`. Nhóm phát triển tiếp trên file này. |
 
+### Vì sao bản port ban đầu không có `remove_line()`
+
+Yêu cầu của môn ghi: *"Code ban đầu mà SV1 (nhóm trưởng) phải đưa lên là code ở
+link không có hàm `removeLine()`"*. Nhưng file `main.cpp` tải từ link giảng viên
+gửi thì **có** hàm đó.
+
+Nhóm xử lý như sau:
+
+| Việc | Lý do |
+|---|---|
+| `main.cpp` đưa lên nguyên văn, không sửa một dòng, làm commit đầu tiên của repo | Yêu cầu nói rõ code ban đầu phải là code của giảng viên. Tự tay xoá bớt một hàm rồi đưa lên thì không còn là mã nguồn gốc nữa |
+| Bản port `tetris.py` cố ý **bỏ trống** `remove_line()` | Đúng tinh thần bài tập: SV2 phải tự viết hàm này. Nếu port đủ luôn thì SV2 không còn việc |
+
+Nhờ vậy vừa giữ được mã nguồn gốc nguyên vẹn, vừa để lại đúng phần việc cho SV2.
+Hàm `remove_line()` hiện tại trong `tetris.py` là do Vũ Anh Tuấn viết
+([PR #10](https://github.com/tronghv77/tetris-game-uit/pull/10)), không phải bản
+dịch từ `main.cpp` — và bản của Tuấn còn tránh được lỗi thứ 2 trong danh sách
+[lỗi tìm được](docs/PHAN-CONG.md).
+
 Bản port cố ý giữ nguyên lối viết của bản C++: dùng biến toàn cục, vẽ bằng ký tự trong cửa sổ dòng lệnh, đọc phím bằng `msvcrt`. Giữ vậy để dễ đối chiếu hai bản, và để dành phần chuyển sang lập trình hướng đối tượng cho giai đoạn sau.
 
 ### Bảng đối chiếu tên hàm
@@ -39,6 +58,8 @@ Bản port cố ý giữ nguyên lối viết của bản C++: dùng biến toà
 | `initBoard` | `init_board` |
 | `draw` | `draw` |
 | `removeLine` | `remove_line` |
+| — | `rotate_block` — nhóm thêm |
+| — | `is_game_over`, `draw_game_over` — nhóm thêm |
 
 ---
 
@@ -62,9 +83,11 @@ Không cần cài thư viện ngoài.
 | `d` | Sang phải |
 | `w` | Xoay khối |
 | `x` | Rơi nhanh một hàng |
+| `r` | Chơi lại, sau khi thua |
 | `q` | Thoát |
 
-Bản gốc của giảng viên chưa có phím xoay. Phím `w` do nhóm bổ sung.
+Bản gốc của giảng viên chưa có phím xoay và cũng chưa có phần kết thúc game.
+Phím `w` và `r` do nhóm bổ sung.
 
 ---
 
