@@ -18,6 +18,8 @@ Dự án bắt đầu từ **mã nguồn C++ của giảng viên** (`main.cpp`),
 
 Chi tiết từng việc: [docs/PHAN-CONG.md](docs/PHAN-CONG.md)
 
+**Toàn bộ minh chứng của đồ án gom ở một chỗ: [docs/TONG-KET.md](docs/TONG-KET.md)**
+
 ---
 
 ## 📁 Mã nguồn
