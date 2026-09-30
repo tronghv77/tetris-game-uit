@@ -63,6 +63,64 @@ Bản port cố ý giữ nguyên lối viết của bản C++: dùng biến toà
 
 ---
 
+## 🖼️ Game trông thế nào
+
+Màn hình bắt đầu:
+
+```
+
+    ==================================
+              T E T R I S             
+    ==================================
+
+      Do an Ky nang nghe nghiep - UIT
+      Nhom 07
+
+    ----------------------------------
+      a / d    sang trai / sang phai
+      w        xoay khoi
+      s        xoay nguoc chieu
+      x        roi nhanh mot hang
+      p        tam dung / choi tiep
+      r        choi lai, sau khi thua
+      q        thoat
+    ----------------------------------
+
+      Nhan phim bat ky de bat dau...
+```
+
+Đang chơi. Khung `NEXT` bên phải hiện khối sắp rơi, dòng trên cùng hiện điểm
+và số hàng đã xoá:
+
+```
+ ĐIỂM: 500  |  DÒNG: 3
+                                  NEXT
+##############################   |  []    |
+##                          ##   |[][][]  |
+##                          ##   |        |
+##                          ##   |        |
+##                          ##           
+##        []                ##           
+##        [][][]            ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##  [][]                    ##           
+##[][][][][][]              ##           
+##[][][][][][][][][][]      ##           
+##############################           
+```
+
+Hai khung trên là đầu ra thật của `tetris.py`, chụp lại bằng `kiem_tra.py`.
+
+---
+
 ## 🚀 Cách chạy
 
 Yêu cầu: **Python 3.10 trở lên**, chạy trên **Windows** (dùng `msvcrt` để đọc phím, giống `conio.h` của bản C++).

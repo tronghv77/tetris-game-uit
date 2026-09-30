@@ -14,7 +14,7 @@ thường và cũng nằm trong yêu cầu của môn học. Cách xử lý xem
 - [x] Đưa `main.cpp` của giảng viên lên Git, giữ nguyên không sửa
 - [x] Port sang Python thành `tetris.py`, dịch sát từng hàm
 - [x] Duyệt Pull Request của các bạn, hướng dẫn xử lý conflict
-- [ ] Soạn hợp đồng nhóm và mục link công cụ trong báo cáo
+- [x] Soạn hợp đồng nhóm và mục link công cụ trong báo cáo
 
 ---
 
