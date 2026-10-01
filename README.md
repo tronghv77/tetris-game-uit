@@ -65,6 +65,34 @@ Bản port cố ý giữ nguyên lối viết của bản C++: dùng biến toà
 
 ---
 
+## 🎮 Hai bản để chơi
+
+| Bản | Chạy bằng | Dành cho |
+|---|---|---|
+| `tetris.py` | `python tetris.py` | **Bản chính của đồ án.** Chạy trong cửa sổ dòng lệnh, đúng như mã nguồn gốc của giảng viên |
+| `tetris_gui.py` | `python tetris_gui.py` | Bản giao diện đồ hoạ, chơi bằng chuột hoặc bàn phím |
+
+Trên Windows có thể bấm đúp `choi-game.bat` hoặc `choi-game-dong-lenh.bat`
+thay vì gõ lệnh. Hai file này tự dò đường dẫn Python nên không cần Python
+nằm trong PATH.
+
+### Bản đồ hoạ có gì
+
+Menu chính, chọn cấp bắt đầu từ 1 đến 10, đếm ngược trước mỗi ván, màn
+hướng dẫn, bảng điểm cao top 10, tạm dừng, và màn kết thúc có thống kê.
+Trong lúc chơi có khung xem trước khối kế tiếp, bóng mờ báo chỗ khối sẽ
+đáp xuống, và nút bấm cho ai muốn chơi bằng chuột.
+
+**Phần luật chơi không bị chép lại.** `tetris_gui.py` gọi thẳng
+`can_move()`, `rotate_block()`, `init_board()` trong `tetris.py`, nên sửa
+luật một chỗ là cả hai bản cùng đổi theo. File `tetris.py` không bị sửa
+dòng nào.
+
+Bản đồ hoạ dùng `tkinter`, vốn đi kèm sẵn trong Python, nên repo vẫn
+**không phụ thuộc thư viện ngoài nào**.
+
+---
+
 ## 🖼️ Game trông thế nào
 
 Màn hình bắt đầu:
