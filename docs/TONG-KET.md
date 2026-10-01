@@ -4,6 +4,7 @@ Trang này gom lại toàn bộ minh chứng của nhóm vào một chỗ, để
 phải lục từng Pull Request.
 
 Mọi con số dưới đây đều kiểm chứng được bằng lệnh Git, có ghi sẵn ở cuối trang.
+Số liệu chốt ngày 01/10/2026.
 
 ---
 
@@ -28,8 +29,8 @@ trong [README](../README.md).
 | Chỉ tiêu | Yêu cầu | Đạt được |
 |---|---|---|
 | Thành viên đóng góp mã nguồn | 100% | 5/5 |
-| Số commit | > 50 | xem lệnh kiểm tra bên dưới |
-| Số conflict đã xử lý | > 3 | 6 |
+| Số commit | > 50 | 68 |
+| Số conflict đã xử lý | > 3 | 5 |
 | Số nhánh | > 6 | 11 |
 | Chữ ký hợp đồng nhóm | 5/5 | 5/5, ký ngày 26/09/2026 |
 
@@ -47,7 +48,7 @@ trong [README](../README.md).
 
 ---
 
-## Sáu lần gặp và xử lý conflict
+## Năm lần gặp và xử lý conflict
 
 Cả nhóm cùng sửa một file `tetris.py`, nên conflict phát sinh tự nhiên chứ
 không phải dựng lên cho đủ chỉ tiêu.
@@ -59,9 +60,13 @@ không phải dựng lên cho đủ chỉ tiêu.
 | 3 | `0a1711c` | Vũ Anh Tuấn | Điểm số × tăng tốc × kết thúc game |
 | 4 | `be484e9` | Hồ Văn Trọng | Điểm số × khối kế tiếp |
 | 5 | `f6f263a` | Hồ Văn Trọng | Bảng phím trong README, hai nhánh cùng thêm một dòng |
-| 6 | `023ca79` | Hồ Văn Trọng | Mẫu Pull Request |
 
 Cách xử lý từng lần ghi trong mô tả của Pull Request tương ứng.
+
+Lưu ý khi tự kiểm chứng: lệnh `git log --grep=conflict` trả về 7 dòng chứ không
+phải 5. Hai dòng thừa là `023ca79` và `ecfb0db`, hai commit chỉ sửa tài liệu —
+chúng lọt vào kết quả vì mẫu Pull Request có chứa chữ "conflict". Năm commit
+trong bảng trên mới là những lần gỡ conflict thật.
 
 ---
 
@@ -108,7 +113,7 @@ cd tetris-game-uit
 git log --oneline | wc -l              # số commit
 git branch -r | grep -v HEAD | wc -l   # số nhánh
 git log --no-merges --format='%an' | sort | uniq -c | sort -rn   # ai bao nhiêu commit
-git log --oneline -i --grep=conflict   # các lần gỡ conflict
+git log --oneline -i --grep=conflict   # các lần gỡ conflict (xem lưu ý ở trên)
 git log --oneline --reverse | head -1  # commit đầu tiên là mã nguồn của thầy
 
 python tetris.py      # chơi thử
