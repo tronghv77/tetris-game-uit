@@ -18,6 +18,8 @@ Dự án bắt đầu từ **mã nguồn C++ của giảng viên** (`main.cpp`),
 
 Chi tiết từng việc: [docs/PHAN-CONG.md](docs/PHAN-CONG.md)
 
+**Toàn bộ minh chứng của đồ án gom ở một chỗ: [docs/TONG-KET.md](docs/TONG-KET.md)**
+
 ---
 
 ## 📁 Mã nguồn
@@ -60,6 +62,64 @@ Bản port cố ý giữ nguyên lối viết của bản C++: dùng biến toà
 | `removeLine` | `remove_line` |
 | — | `rotate_block` — nhóm thêm |
 | — | `is_game_over`, `draw_game_over` — nhóm thêm |
+
+---
+
+## 🖼️ Game trông thế nào
+
+Màn hình bắt đầu:
+
+```
+
+    ==================================
+              T E T R I S             
+    ==================================
+
+      Do an Ky nang nghe nghiep - UIT
+      Nhom 07
+
+    ----------------------------------
+      a / d    sang trai / sang phai
+      w        xoay khoi
+      s        xoay nguoc chieu
+      x        roi nhanh mot hang
+      p        tam dung / choi tiep
+      r        choi lai, sau khi thua
+      q        thoat
+    ----------------------------------
+
+      Nhan phim bat ky de bat dau...
+```
+
+Đang chơi. Khung `NEXT` bên phải hiện khối sắp rơi, dòng trên cùng hiện điểm
+và số hàng đã xoá:
+
+```
+ ĐIỂM: 500  |  DÒNG: 3
+                                  NEXT
+##############################   |  []    |
+##                          ##   |[][][]  |
+##                          ##   |        |
+##                          ##   |        |
+##                          ##           
+##        []                ##           
+##        [][][]            ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##                          ##           
+##  [][]                    ##           
+##[][][][][][]              ##           
+##[][][][][][][][][][]      ##           
+##############################           
+```
+
+Hai khung trên là đầu ra thật của `tetris.py`, chụp lại bằng `kiem_tra.py`.
 
 ---
 
