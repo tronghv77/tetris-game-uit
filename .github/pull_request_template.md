@@ -11,6 +11,7 @@
 
 ## Đã kiểm tra
 - [ ] Chạy `python tetris.py` không lỗi, chơi thử được
+- [ ] Chạy `python kiem_tra.py`, tất cả đều đúng
 - [ ] Đã `git pull` nhánh `main` mới nhất trước khi tạo PR
 - [ ] Không commit nhầm `.venv/` hoặc `__pycache__/`
 
