@@ -87,7 +87,7 @@ trên Google Docs của nhóm.
 
 ## Lỗi tìm được trong mã nguồn gốc của giảng viên
 
-Bốn lỗi nhóm phát hiện khi đọc, port và chơi thử `main.cpp`. Nên đưa vào báo cáo.
+Năm lỗi nhóm phát hiện khi đọc, port và chơi thử `main.cpp`. Nên đưa vào báo cáo.
 
 1. **`rand()%7` chỉ sinh ra hai loại khối.** Bảy phần tử đầu của mảng `blocks`
    chỉ gồm khối I và O, nên T, S, Z, J, L ở vị trí 11–15 không bao giờ xuất
@@ -100,6 +100,11 @@ Bốn lỗi nhóm phát hiện khi đọc, port và chơi thử `main.cpp`. Nên
 4. **Game không bao giờ kết thúc.** Bảng đầy tới đỉnh thì khối mới bị khoá ngay
    tại chỗ rồi lại sinh khối mới, vòng `while (1)` chạy mãi, chỉ thoát được bằng
    phím `q`. Trọng xử lý bằng `is_game_over()` và màn hình báo thua.
+5. **Khối vừa sinh ra không xoay được.** Khối sinh ra ở `y = 0` nên nhiều trạng
+   thái xoay có ô nằm ngay hàng 0 — là hàng viền `#`. Phép thử `canMove(0, 0)`
+   trả về sai, nước xoay bị huỷ. Sáu trên bảy loại khối dính lỗi này, phải chờ
+   khối rơi xuống một hàng mới xoay được. Xử lý bằng *wall kick*: xoay không lọt
+   thì thử nhích khối một ô rồi xét lại.
 
 ---
 

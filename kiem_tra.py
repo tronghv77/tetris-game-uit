@@ -197,14 +197,47 @@ def kiem_tra_xoay(game):
              len(da_qua) == vong_mong_doi[ten] and game.b == so,
              f"đi qua {len(da_qua)} trạng thái")
 
+    # Xoay ngay lúc khối vừa sinh ra, tức là y = 0. Khối sinh ra đè lên
+    # hàng viền trên cùng, nên chỗ này từng bị lỗi: sáu trên bảy loại
+    # khối bấm xoay không có tác dụng.
+    khong_xoay_duoc = []
+    for so, ten in zip(KHOI_BAN_DAU, TEN_KHOI):
+        if ten == "O":
+            continue                       # khối O xoay ra chính nó
+        game.init_board()
+        game.x, game.y, game.b = 5, 0, so
+        truoc = game.b
+        game.rotate_block()
+        if game.b == truoc:
+            khong_xoay_duoc.append(ten)
+    kiem("Khối vừa sinh ra đã xoay được ngay",
+         not khong_xoay_duoc,
+         f"chưa xoay được: {khong_xoay_duoc}" if khong_xoay_duoc
+         else "lỗi thứ 5 trong main.cpp")
+
+    # Xoay ngược chiều: bấm xoay rồi bấm xoay ngược phải về chỗ cũ
+    sai_cho = []
+    for so, ten in zip(KHOI_BAN_DAU, TEN_KHOI):
+        game.init_board()
+        game.x, game.y, game.b = 5, 5, so
+        game.rotate_block()
+        game.rotate_block(nguoc=True)
+        if game.b != so:
+            sai_cho.append(ten)
+    kiem("Xoay rồi xoay ngược thì về đúng trạng thái cũ", not sai_cho,
+         f"sai: {sai_cho}" if sai_cho else "cả 7 loại")
+
     # Xoay sát tường không được phép xuyên qua
-    game.init_board()
-    game.x, game.y, game.b = 1, 5, 9      # khối Z nằm ngang, sát tường trái
-    truoc = game.b
-    game.rotate_block()
-    hop_le = game.can_move(0, 0)
-    kiem("Xoay sát tường: hoặc không xoay, hoặc xoay ra chỗ hợp lệ",
-         hop_le, "không xuyên tường")
+    ket_o_cho_sai = []
+    for so, ten in zip(KHOI_BAN_DAU, TEN_KHOI):
+        game.init_board()
+        game.x, game.y, game.b = 1, 5, so     # sát tường trái
+        game.rotate_block()
+        if not game.can_move(0, 0):
+            ket_o_cho_sai.append(ten)
+    kiem("Xoay sát tường: không khối nào kẹt ở chỗ không hợp lệ",
+         not ket_o_cho_sai,
+         f"kẹt: {ket_o_cho_sai}" if ket_o_cho_sai else "không xuyên tường")
 
     # Xoay khi bị khối khác chặn thì phải giữ nguyên
     game.init_board()

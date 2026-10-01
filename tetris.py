@@ -17,8 +17,21 @@ Bảng đối chiếu tên hàm:
     draw            draw
     removeLine      remove_line
 
-Cách chơi:  a sang trái, d sang phải, w xoay khối, x rơi nhanh, q thoát.
-Chạy:       python tetris.py
+Các hàm nhóm tự thêm, bản C++ không có:
+
+    rotate_block                    xoay khối
+    is_game_over, draw_game_over    kết thúc game
+    draw_start_screen               màn hình chào
+    draw_pause_screen, wait_any_key tạm dừng
+
+Cách chơi:
+    a  sang trái        d  sang phải
+    w  xoay             s  xoay ngược chiều
+    x  rơi nhanh        p  tạm dừng
+    r  chơi lại         q  thoát
+
+Chạy game:      python tetris.py
+Chạy kiểm tra:  python kiem_tra.py
 """
 
 import msvcrt
@@ -316,8 +329,13 @@ def remove_line():
 # ============================================================
 # XOAY KHỐI
 # ============================================================
-def rotate_block():
-    global b
+def rotate_block(nguoc=False):
+    """Xoay khối một bước. `nguoc=True` thì xoay ngược chiều.
+
+    Xoay ngược là đi lùi một bước trong vòng trạng thái, nên chỉ cần
+    tra bảng `rotation` theo chiều ngược lại.
+    """
+    global b, x, y
 
     # Trạng thái xoay của từng loại khối
     rotation = {
@@ -352,12 +370,28 @@ def rotate_block():
     old_b = b
 
     # Chuyển sang trạng thái xoay
-    b = rotation[b]
+    if nguoc:
+        # Bảng tra ngược: từ trạng thái đích tìm ngược về trạng thái nguồn
+        b = {sau: truoc for truoc, sau in rotation.items()}[b]
+    else:
+        b = rotation[b]
 
-    # Kiểm tra vị trí mới
-    if not can_move(0, 0):
-        # Nếu xoay bị đụng tường / khối khác thì quay lại trạng thái cũ
-        b = old_b
+    # Xoay xong mà không lọt thì thử nhích khối một ô rồi xét lại. Dân
+    # chơi Tetris gọi cái này là "wall kick": khối dính sát tường vẫn
+    # xoay được, chỉ là bị đẩy ra một chút.
+    #
+    # Phải có bước này vì khối sinh ra ở y = 0, mà nhiều trạng thái xoay
+    # có ô nằm ngay hàng 0 — là hàng viền '#'. Không nhích thì bấm w
+    # ngay lúc khối vừa xuất hiện sẽ không có tác dụng, sáu trên bảy
+    # loại khối đều dính.
+    for dx, dy in ((0, 0), (-1, 0), (1, 0), (0, 1)):
+        if can_move(dx, dy):
+            x += dx
+            y += dy
+            return
+
+    # Không nhích kiểu nào lọt thì huỷ nước xoay
+    b = old_b
 
 
 # ============================================================
@@ -390,6 +424,7 @@ def draw_start_screen():
     print("    ----------------------------------")
     print("      a / d    sang trai / sang phai")
     print("      w        xoay khoi")
+    print("      s        xoay nguoc chieu")
     print("      x        roi nhanh mot hang")
     print("      p        tam dung / choi tiep")
     print("      r        choi lai, sau khi thua")
@@ -526,6 +561,10 @@ def main():
                 # Xoay
                 if c == "w":
                     rotate_block()
+
+                # Xoay ngược chiều
+                if c == "s":
+                    rotate_block(nguoc=True)
 
                 # Tạm dừng
                 if c == "p":
