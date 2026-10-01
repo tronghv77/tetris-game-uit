@@ -95,6 +95,18 @@ Bản đồ hoạ dùng `tkinter`, vốn đi kèm sẵn trong Python, nên repo 
 
 ## 🖼️ Game trông thế nào
 
+### Bản đồ hoạ
+
+<img src="docs/images/man-hinh-chinh.png" width="420" alt="Màn hình chính">
+
+<img src="docs/images/dang-choi.png" width="420" alt="Đang chơi">
+
+Khung `NEXT` bên phải hiện khối sắp rơi. Viền mờ dưới đáy báo chỗ khối sẽ
+đáp xuống nếu bấm thả thẳng.
+
+### Bản dòng lệnh
+
+
 Màn hình bắt đầu:
 
 ```
