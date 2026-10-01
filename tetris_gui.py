@@ -435,30 +435,30 @@ class Game:
         self._vach()
         x, y, cao = LE, 20, 60
 
-        self.nut.append(Nut(self.bang_nut, x, y, 200, cao, "\▶",
+        self.nut.append(Nut(self.bang_nut, x, y, 168, cao, "▶",
                             "BẮT ĐẦU CHƠI", self.bat_dau, chinh=True,
                             co_chu=17))
-        x += 212
+        x += 178
 
-        self.nut.append(Nut(self.bang_nut, x, y, 58, cao, "\◀", "",
+        self.nut.append(Nut(self.bang_nut, x, y, 50, cao, "◀", "",
                             lambda: self.doi_cap(-1), co_chu=13))
-        x += 64
-        self.bang_nut.create_text(x + 38, y + cao / 2 - 12,
+        x += 56
+        self.bang_nut.create_text(x + 36, y + cao / 2 - 12,
                                   text="CẤP BẮT ĐẦU", fill=CHU_MO,
                                   font=self.f_nhan)
         self.id_cap_so = self.bang_nut.create_text(
-            x + 38, y + cao / 2 + 12, text=str(self.cap_bat_dau),
+            x + 36, y + cao / 2 + 12, text=str(self.cap_bat_dau),
             fill=NHAN, font=self.f_so)
-        x += 76
-        self.nut.append(Nut(self.bang_nut, x, y, 58, cao, "\▶", "",
+        x += 82
+        self.nut.append(Nut(self.bang_nut, x, y, 50, cao, "▶", "",
                             lambda: self.doi_cap(1), co_chu=13))
-        x += 70
+        x += 62
 
         self.nut.append(Nut(self.bang_nut, x, y, 118, cao, "?",
                             "HƯỚNG DẪN",
                             lambda: self.sang_man("huong_dan")))
         x += 126
-        self.nut.append(Nut(self.bang_nut, x, y, 118, cao, "\★",
+        self.nut.append(Nut(self.bang_nut, x, y, 118, cao, "★",
                             "ĐIỂM CAO",
                             lambda: self.sang_man("diem_cao")))
 
@@ -468,7 +468,7 @@ class Game:
 
     def _nut_quay_lai(self):
         self._vach()
-        self.nut.append(Nut(self.bang_nut, LE, 20, 210, 60, "\←",
+        self.nut.append(Nut(self.bang_nut, LE, 20, 210, 60, "←",
                             "VỀ MENU CHÍNH",
                             lambda: self.sang_man("menu"),
                             chinh=True, co_chu=17))
@@ -480,15 +480,15 @@ class Game:
         self._vach()
         x, y, cao = LE, 20, 60
 
-        self.nut.append(Nut(self.bang_nut, x, y, 184, cao, "\↻",
+        self.nut.append(Nut(self.bang_nut, x, y, 184, cao, "↻",
                             "CHƠI VÁN MỚI", self.bat_dau, chinh=True,
                             co_chu=17))
         x += 196
-        self.nut.append(Nut(self.bang_nut, x, y, 160, cao, "\★",
+        self.nut.append(Nut(self.bang_nut, x, y, 160, cao, "★",
                             "XEM ĐIỂM CAO",
                             lambda: self.sang_man("diem_cao")))
         x += 172
-        self.nut.append(Nut(self.bang_nut, x, y, 160, cao, "\←",
+        self.nut.append(Nut(self.bang_nut, x, y, 160, cao, "←",
                             "VỀ MENU CHÍNH",
                             lambda: self.sang_man("menu")))
 
@@ -1057,7 +1057,7 @@ class Game:
                                 fill=NHAN, font=self.f_nhan)
         self.canvas.create_text(
             x1, y + 24, anchor="nw", fill=CHU, font=self.f_phim,
-            text=("\←  \→      dịch trái, dịch phải\n"
+            text=("←  \→      dịch trái, dịch phải\n"
                   "\↑  hoặc W   xoay khối\n"
                   "S           xoay ngược chiều\n"
                   "\↓           rơi nhanh một hàng\n"
@@ -1130,7 +1130,7 @@ class Game:
                                     font=self.f_bang)
             if moi:
                 self.canvas.create_text(x + 400, y, anchor="nw",
-                                        text="\◀ ván vừa rồi",
+                                        text="◀ ván vừa rồi",
                                         fill=VANG, font=self.f_bang)
             y += 26
 
@@ -1177,7 +1177,7 @@ class Game:
         if self.hang_moi:
             self.canvas.create_text(
                 giua_x, y, fill=VANG, font=self.f_vua,
-                text="\★  Lọt bảng điểm cao, hạng " + str(self.hang_moi))
+                text="★  Lọt bảng điểm cao, hạng " + str(self.hang_moi))
             y += 32
 
         for nhan, gia_tri in (
