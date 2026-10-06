@@ -4,7 +4,7 @@ Trang này gom lại toàn bộ minh chứng của nhóm vào một chỗ, để
 phải lục từng Pull Request.
 
 Mọi con số dưới đây đều kiểm chứng được bằng lệnh Git, có ghi sẵn ở cuối trang.
-Số liệu chốt ngày 01/10/2026.
+Số liệu chốt ngày 06/10/2026.
 
 ---
 
@@ -29,9 +29,9 @@ trong [README](../README.md).
 | Chỉ tiêu | Yêu cầu | Đạt được |
 |---|---|---|
 | Thành viên đóng góp mã nguồn | 100% | 5/5 |
-| Số commit | > 50 | 68 |
+| Số commit | > 50 | 80 trở lên |
 | Số conflict đã xử lý | > 3 | 5 |
-| Số nhánh | > 6 | 11 |
+| Số nhánh | > 6 | 14 trở lên |
 | Chữ ký hợp đồng nhóm | 5/5 | 5/5, ký ngày 26/09/2026 |
 
 ---
@@ -80,8 +80,10 @@ chỉ gồm hai loại đó, còn T, S, Z, J, L nằm ở vị trí 11 đến 15
 xuất hiện. Chơi bản gốc sẽ thấy chỉ rơi hai loại khối.
 *Nguyên xử lý bằng danh sách `first_states`.*
 
-**2. `removeLine()` biến hàng trên cùng thành tường.** Vòng lặp chép hàng viền
-`#` ở trên xuống hàng 1, nên mỗi lần xoá hàng lại mọc thêm một bức tường.
+**2. `removeLine()` biến hàng trên cùng thành tường rồi kẹt vòng lặp.** Vòng
+lặp chép hàng viền `#` ở trên xuống hàng 1. Bức tường vừa mọc ra lại không còn
+ô trống nào, nên lần xét sau thuật toán coi đó là hàng đầy và xoá tiếp — xoá
+xong lại chép hàng 0 xuống. Bản gốc treo ngay ở lần xoá hàng đầu tiên.
 *Tuấn xử lý bằng cách dừng ở hàng 2 rồi đặt lại hàng 1 thành hàng trống.*
 
 **3. Ô hiển thị bị kéo dẹt.** Ký tự trong cửa sổ dòng lệnh cao hơn là rộng, nên
@@ -101,6 +103,9 @@ về sai và nước xoay bị huỷ. Sáu trên bảy loại khối dính lỗi
 Lỗi 4 và lỗi 5 cùng một nguyên nhân gốc: bản C++ vẽ khối đè lên hàng viền trên
 cùng, nên mọi phép thử `canMove(0, 0)` tại `y = 0` đều sai. Nhóm dính bẫy này
 hai lần trước khi hiểu ra.
+
+Cả năm lỗi đều có script chạy được để tự kiểm chứng, không phải đọc rồi tin.
+Xem [NAM-LOI.md](NAM-LOI.md) và thư mục [`chung-minh-loi/`](chung-minh-loi/).
 
 ---
 
